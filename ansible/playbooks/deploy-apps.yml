@@ -1,0 +1,2 @@
+---
+- import_playbook: apps/homeassistant/deploy-home-assistant.yml

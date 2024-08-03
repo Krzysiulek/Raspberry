@@ -1,2 +1,3 @@
 ---
-- import_playbook: apps/homeassistant/deploy-home-assistant.yml
+- import_playbook: apps/home-assistant/deploy-home-assistant.yml
+- import_playbook: apps/cockpit/deploy-cockpit.yml

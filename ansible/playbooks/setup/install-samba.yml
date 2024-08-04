@@ -1,0 +1,86 @@
+---
+- name: Setup Samba on Raspberry Pi
+  hosts: raspberrypi
+  become: true
+  vars:
+    samba_directory: "/home/{{ ansible_user }}/samba5"
+    samba_config: /etc/samba/smb.conf
+    samba_share:
+      - '[sambashare]'
+      - '    comment = Samba on Ubuntu'
+      - '    path = {{ samba_directory }}'
+      - '    read only = no'
+      - '    browsable = yes'
+
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install Samba
+      apt:
+        name: samba
+        state: present
+
+    - name: Create Samba directory
+      file:
+        path: "{{ samba_directory }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Check if Samba share is already defined
+      command: grep -q "^\[sambashare\]" "{{ samba_config }}"
+      register: samba_share_exists
+      ignore_errors: true
+
+    - name: Backup original smb.conf if the share is not defined
+      copy:
+        src: "{{ samba_config }}"
+        dest: "{{ samba_config }}.bak"
+        remote_src: yes
+      when: samba_share_exists.rc != 0
+
+    - name: Add Samba share configuration if not present
+      blockinfile:
+        path: "{{ samba_config }}"
+        block: |
+          [sambashare]
+              comment = Samba on Ubuntu
+              path = {{ samba_directory }}
+              read only = no
+              browsable = yes
+      when: samba_share_exists.rc != 0
+
+    - name: Replace existing Samba share configuration
+      replace:
+        path: "{{ samba_config }}"
+        regexp: '^\[sambashare\]\n\s+comment = .*\n\s+path = .*\n\s+read only = .*\n\s+browsable = .*'
+        replace: |
+          [sambashare]
+              comment = Samba on Ubuntu
+              path = {{ samba_directory }}
+              read only = no
+              browsable = yes
+      when: samba_share_exists.rc == 0
+
+    - name: Restart Samba service
+      service:
+        name: smbd
+        state: restarted
+
+    - name: Install UFW
+      apt:
+        name: ufw
+        state: present
+
+    - name: Allow Samba through UFW
+      command: ufw allow samba
+      notify: restart ufw
+
+  handlers:
+    - name: restart ufw
+      service:
+        name: ufw
+        state: restarted

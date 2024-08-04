@@ -1,0 +1,18 @@
+---
+- name: Install exFAT packages
+  hosts: raspberrypi
+  become: true
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install exfat-fuse
+      apt:
+        name: exfat-fuse
+        state: present
+
+    - name: Install exfatprogs (ex exfat-utils)
+      apt:
+        name: exfatprogs
+        state: present

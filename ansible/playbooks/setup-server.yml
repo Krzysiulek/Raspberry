@@ -1,2 +1,4 @@
 ---
 - import_playbook: setup/install-docker.yml
+- import_playbook: setup/install-exfat-support.yml
+- import_playbook: setup/install-samba.yml

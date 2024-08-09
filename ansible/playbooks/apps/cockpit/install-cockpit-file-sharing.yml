@@ -1,0 +1,23 @@
+---
+- name: Install cockpit-file-sharing from a URL
+  hosts: all
+  become: true
+  vars:
+    deb_file: "cockpit-file-sharing_3.3.7-1focal_all.deb"
+    deb_url: "https://github.com/45Drives/cockpit-file-sharing/releases/download/v3.3.7/{{ deb_file }}"
+
+  tasks:
+    - name: Download the .deb file
+      get_url:
+        url: "{{ deb_url }}"
+        dest: "/tmp/{{ deb_file }}"
+
+    - name: Install the downloaded .deb package
+      apt:
+        deb: "/tmp/{{ deb_file }}"
+        state: present
+
+    - name: Remove the .deb file
+      file:
+        path: "/tmp/{{ deb_file }}"
+        state: absent

@@ -3,7 +3,7 @@
   hosts: raspberrypi
   become: true
   vars:
-    samba_directory: "/home/{{ ansible_user }}/samba5"
+    samba_directory: "/home/{{ ansible_user }}/NAS"
     samba_config: /etc/samba/smb.conf
     samba_share:
       - '[sambashare]'

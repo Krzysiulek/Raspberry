@@ -1,0 +1,25 @@
+---
+- name: Restart Samba on Raspberry Pi
+  hosts: raspberrypi
+  become: true
+
+  tasks:
+    - name: Restart Samba service
+      service:
+        name: smbd
+        state: restarted
+
+    - name: Install UFW
+      apt:
+        name: ufw
+        state: present
+
+    - name: Allow Samba through UFW
+      command: ufw allow samba
+      notify: restart ufw
+
+  handlers:
+    - name: restart ufw
+      service:
+        name: ufw
+        state: restarted

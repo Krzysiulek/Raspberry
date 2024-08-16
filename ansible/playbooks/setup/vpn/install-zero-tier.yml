@@ -1,0 +1,9 @@
+---
+- name: Install ZeroTier
+  hosts: all
+  become: true
+  tasks:
+    - name: Install ZeroTier using curl and bash
+      shell: curl -s https://install.zerotier.com | bash
+      args:
+        warn: false

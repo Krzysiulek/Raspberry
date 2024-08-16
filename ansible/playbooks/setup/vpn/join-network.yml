@@ -1,0 +1,10 @@
+---
+- name: Join ZeroTier Network
+  hosts: all
+  become: true
+  vars_files:
+    - secrets.yml
+
+  tasks:
+    - name: Join ZeroTier network
+      command: zerotier-cli join {{ zerotier_network_id }}

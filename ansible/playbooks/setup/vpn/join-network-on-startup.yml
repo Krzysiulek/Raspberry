@@ -1,0 +1,47 @@
+---
+- name: Setup ZeroTier Join on Startup
+  hosts: all
+  become: true
+  vars_files:
+    - secrets.yml
+  vars:
+    script_path: "/usr/local/bin/join_zerotier.sh"
+    service_name: "join-zerotier.service"
+
+  tasks:
+    - name: Create a script to join ZeroTier network
+      copy:
+        content: |
+          #!/bin/bash
+          /usr/sbin/zerotier-cli join {{ zerotier_network_id }}
+        dest: "{{ script_path }}"
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create systemd service file
+      copy:
+        content: |
+          [Unit]
+          Description=Join ZeroTier network on startup
+          After=network.target
+
+          [Service]
+          ExecStart={{ script_path }}
+          Restart=on-failure
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: "/etc/systemd/system/{{ service_name }}"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Reload systemd daemon to apply new service
+      command: systemctl daemon-reload
+
+    - name: Enable the service to start on boot
+      systemd:
+        name: "{{ service_name }}"
+        enabled: yes
+        state: started

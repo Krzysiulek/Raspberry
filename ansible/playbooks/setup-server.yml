@@ -4,3 +4,4 @@
 - import_playbook: setup/install-samba.yml
 - import_playbook: setup/vpn/install-zero-tier.yml
 - import_playbook: setup/vpn/join-network.yml
+- import_playbook: setup/vpn/join-network-on-startup.yml

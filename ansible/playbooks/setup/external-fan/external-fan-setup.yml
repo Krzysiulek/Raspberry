@@ -3,8 +3,8 @@
   hosts: all
   become: true
   vars:
-    script_source: "./FanProportional.py"  # lokalna ścieżka do pliku na Twoim komputerze
-    script_dest: "/usr/local/bin/FanProportional.py"  # ścieżka na serwerze
+    script_source: "./FanProportional.py"
+    script_dest: "/usr/local/bin/FanProportional.py"
     cron_job: "@reboot /usr/bin/python3 /usr/local/bin/FanProportional.py"
 
   tasks:

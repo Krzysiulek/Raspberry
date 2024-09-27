@@ -2,6 +2,7 @@ import subprocess  # Calling subprocess to get the CPU temperature
 from gpiozero import PWMLED
 from time import sleep
 
+# GPIO 14 as PWM
 fan = PWMLED(14)
 
 

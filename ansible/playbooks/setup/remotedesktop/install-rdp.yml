@@ -1,0 +1,17 @@
+---
+- name: Update and Install XRDP
+  hosts: all
+  become: true
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Upgrade all installed packages
+      apt:
+        upgrade: dist
+
+    - name: Install XRDP
+      apt:
+        name: xrdp
+      state: present

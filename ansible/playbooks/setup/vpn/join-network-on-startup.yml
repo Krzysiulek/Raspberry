@@ -13,7 +13,7 @@
       copy:
         content: |
           #!/bin/bash
-          /usr/sbin/zerotier-cli join {{ zerotier_network_id }}
+          zerotier-cli join {{ zerotier_network_id }}
         dest: "{{ script_path }}"
         owner: root
         group: root

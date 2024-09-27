@@ -1,0 +1,23 @@
+---
+- name: Deploy FanProportional.py and set up cron job
+  hosts: all
+  become: true
+  vars:
+    script_source: "./FanProportional.py"  # lokalna ścieżka do pliku na Twoim komputerze
+    script_dest: "/usr/local/bin/FanProportional.py"  # ścieżka na serwerze
+    cron_job: "@reboot /usr/bin/python3 /usr/local/bin/FanProportional.py"
+
+  tasks:
+    - name: Copy FanProportional.py to the server
+      copy:
+        src: "{{ script_source }}"
+        dest: "{{ script_dest }}"
+        mode: '0755'
+        owner: root
+        group: root
+
+    - name: Check if the cron job already exists
+      cron:
+        name: "Run FanProportional.py at startup"
+        job: "{{ cron_job }}"
+        state: present

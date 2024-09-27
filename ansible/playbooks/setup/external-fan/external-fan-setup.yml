@@ -3,9 +3,9 @@
   hosts: all
   become: true
   vars:
-    script_source: "./FanProportional.py"
-    script_dest: "/usr/local/bin/FanProportional.py"
-    cron_job: "@reboot /usr/bin/python3 /usr/local/bin/FanProportional.py"
+    script_source: "./FanProportional.py"  # lokalna ścieżka do pliku na Twoim komputerze
+    script_dest: "/usr/local/bin/FanProportional.py"  # ścieżka na serwerze
+    cron_job: "sudo python3 /usr/local/bin/FanProportional.py"
 
   tasks:
     - name: Copy FanProportional.py to the server
@@ -16,8 +16,9 @@
         owner: root
         group: root
 
-    - name: Check if the cron job already exists
+    - name: Add autostart script to cron
       cron:
-        name: "Run FanProportional.py at startup"
-        job: "{{ cron_job }}"
+        name: "Run external fan script at startup"
+        special_time: reboot
         state: present
+        job: "{{ cron_job }}"

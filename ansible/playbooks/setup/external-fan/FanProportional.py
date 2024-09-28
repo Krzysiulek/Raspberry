@@ -1,3 +1,4 @@
+import numpy as np
 import subprocess  # Calling subprocess to get the CPU temperature
 from gpiozero import PWMLED
 from time import sleep
@@ -22,8 +23,10 @@ def calculate_fan_speed(temp, min_temp=40, max_temp=70):
   elif temp > max_temp:
     return 100
   else:
-    # Oblicz proporcjonalną wartość w zakresie 0-100
-    return (temp - min_temp) / (max_temp - min_temp) * 100
+    k = 0.05
+    T_0 = 55 # temp value when y=0.5
+    value = 1 / (1 + np.exp(-k * (temp - T_0)))
+    return value
 
 
 while 1:

@@ -17,14 +17,14 @@ def get_temp():
     raise RuntimeError('Could not get temperature')
 
 
-def calculate_fan_speed(temp, min_temp=40, max_temp=70):
+def calculate_fan_speed(temp, min_temp=40, max_temp=80):
   if temp < min_temp:
     return 0
   elif temp > max_temp:
-    return 100
+    return 1
   else:
-    k = 0.05
-    T_0 = 55 # temp value when y=0.5
+    k = 0.2
+    T_0 = 60 # temp value when y=0.5
     value = 1 / (1 + np.exp(-k * (temp - T_0)))
     return value
 
@@ -34,4 +34,4 @@ while 1:
   fan_speed = calculate_fan_speed(temp)
   fan.value = fan_speed
   print(f"Temp: {temp}. Fan speed: {fan_speed}")
-  sleep(5)
+  sleep(10)

@@ -32,6 +32,6 @@ def calculate_fan_speed(temp, min_temp=40, max_temp=70):
 while 1:
   temp = get_temp()
   fan_speed = calculate_fan_speed(temp)
-  fan.value = fan_speed / 100
+  fan.value = fan_speed
   print(f"Temp: {temp}. Fan speed: {fan_speed}")
   sleep(5)

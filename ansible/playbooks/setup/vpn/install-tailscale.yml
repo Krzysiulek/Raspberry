@@ -1,0 +1,9 @@
+---
+- name: Install Tailscale
+  hosts: all
+  become: true
+  tasks:
+    - name: Run Tailscale installation script
+      shell: "curl -fsSL https://tailscale.com/install.sh | sh"
+      args:
+        warn: false

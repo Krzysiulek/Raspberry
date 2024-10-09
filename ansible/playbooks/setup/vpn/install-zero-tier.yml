@@ -1,9 +1,0 @@
----
-- name: Install ZeroTier using a script with GPG verification
-  hosts: all
-  become: true
-  tasks:
-    - name: Run ZeroTier installation script with GPG verification
-      shell: |
-        curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg' | gpg --import && \
-        if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi

@@ -12,7 +12,7 @@ def get_temp():
   output = subprocess.run(['vcgencmd', 'measure_temp'], capture_output=True)
   temp_str = output.stdout.decode()
   try:
-    return float(temp_str.split('=')[1].split('\'')[0])
+    return float(temp_str.split('=')[1].spl it('\'')[0])
   except (IndexError, ValueError):
     raise RuntimeError('Could not get temperature')
 
@@ -23,8 +23,8 @@ def calculate_fan_speed(temp, min_temp=40, max_temp=80):
   elif temp > max_temp:
     return 1
   else:
-    k = 0.2
-    T_0 = 60 # temp value when y=0.5
+    k = 0.1
+    T_0 = 50 # temp value when y=0.5
     value = 1 / (1 + np.exp(-k * (temp - T_0)))
     return value
 

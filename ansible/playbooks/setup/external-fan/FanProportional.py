@@ -12,7 +12,7 @@ def get_temp():
   output = subprocess.run(['vcgencmd', 'measure_temp'], capture_output=True)
   temp_str = output.stdout.decode()
   try:
-    return float(temp_str.split('=')[1].spl it('\'')[0])
+    return float(temp_str.split('=')[1].split('\'')[0])
   except (IndexError, ValueError):
     raise RuntimeError('Could not get temperature')
 

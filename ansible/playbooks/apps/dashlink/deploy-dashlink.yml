@@ -1,0 +1,63 @@
+---
+- name: Deploy and run DashLink application with Docker Compose
+  hosts: raspberrypi
+  become: true
+  vars:
+    app_name: dashlink
+    compose_project_path: /home/{{ ansible_user }}/{{ app_name }}
+    local_app_dir: ./app
+    local_compose_file: ./docker-compose.yml
+
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker Compose plugin is installed
+      apt:
+        name: docker-compose-plugin
+        state: present
+
+    - name: Create application directory on server
+      file:
+        path: "{{ compose_project_path }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy application files to server
+      copy:
+        src: "{{ local_app_dir }}/"
+        dest: "{{ compose_project_path }}/app/"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Copy docker-compose.yml to server
+      copy:
+        src: "{{ local_compose_file }}"
+        dest: "{{ compose_project_path }}/docker-compose.yml"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Build Docker image
+      command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" build
+      args:
+        chdir: "{{ compose_project_path }}"
+
+    - name: Run Docker Compose up
+      command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" up -d
+      args:
+        chdir: "{{ compose_project_path }}"
+
+    - name: Verify running containers
+      command: docker ps
+      register: docker_ps_output
+
+    - name: Display running containers
+      debug:
+        var: docker_ps_output.stdout

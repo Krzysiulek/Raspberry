@@ -4,3 +4,4 @@
 - import_playbook: apps/cockpit/install-cockpit-identities-plugin.yml
 - import_playbook: apps/cockpit/install-cockpit-file-sharing.yml
 - import_playbook: apps/filebrowser/deploy-filebrowser.yml
+- import_playbook: apps/dashlink/deploy-dashlink.yml

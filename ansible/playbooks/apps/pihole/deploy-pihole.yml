@@ -1,0 +1,40 @@
+---
+- name: Deploy and run Docker Compose application
+  hosts: raspberrypi
+  become: true
+  vars:
+    app_name: pihole
+    compose_project_path: /home/{{ ansible_user }}/{{ app_name }}
+
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker Compose plugin is installed
+      apt:
+        name: docker-compose-plugin
+        state: present
+
+    - name: Create application directory
+      file:
+        path: "{{ compose_project_path }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy docker-compose.yml to server
+      copy:
+        src: ./docker-compose.yml
+        dest: "{{ compose_project_path }}/docker-compose.yml"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Run Docker Compose up
+      command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" up -d
+      args:
+        chdir: "{{ compose_project_path }}"

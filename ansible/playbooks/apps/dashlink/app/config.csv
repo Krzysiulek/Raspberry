@@ -1,6 +1,7 @@
 name,port,icon
 HomeAssistant,8123,ha.png
 PhotoView,8000,photoview.png
+PhotoPrism,2342,photoprism.png
 FileBrowser,8080,filebrowser.svg
 OpenMediaVault,8001,openmediavault.png
 Cockpit,9090,cockpit.png

@@ -5,6 +5,7 @@
   vars:
     app_name: photoprism
     compose_project_path: /home/{{ ansible_user }}/{{ app_name }}
+    backup_path: /srv/dev-disk-by-uuid-186db084-62ac-4a6f-a9c0-165ed0d40f88/backup-rpi/{{ app_name }}
 
   tasks:
     - name: Ensure Docker is installed
@@ -21,6 +22,14 @@
     - name: Create application directory
       file:
         path: "{{ compose_project_path }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Create backup directory
+      file:
+        path: "{{ backup_path }}"
         state: directory
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"

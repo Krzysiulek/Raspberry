@@ -19,6 +19,26 @@ services:
     healthcheck:
       disable: false
 
+  immich-folder-album-creator:
+    container_name: immich_folder_album_creator
+    image: salvoxia/immich-folder-album-creator:latest
+    restart: unless-stopped
+    volumes:
+      - ${API_KEY_FILE}:/immich_api_key.secret:ro
+    environment:
+      API_URL: http://immich_server:2283/api
+      API_KEY_FILE: /immich_api_key.secret
+      ROOT_PATH: /external
+      CRON_EXPRESSION: "0 */1 * * *"
+      TZ: ${TZ}
+      MODE: CREATE
+#      MODE: DELETE_ALL
+      DELETE_CONFIRM: True
+      RUN_IMMEDIATELY: true
+      SHARE_WITH: "Sylwia"
+      UPDATE_ALBUM_PROPS_MODE: 2
+      UNATTENDED: 1
+
   immich-machine-learning:
     container_name: immich_machine_learning
     # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.

@@ -29,7 +29,7 @@ services:
       API_URL: http://immich_server:2283/api
       API_KEY_FILE: /immich_api_key.secret
       ROOT_PATH: /external
-      CRON_EXPRESSION: "0 */1 * * *"
+      CRON_EXPRESSION: "30 */1 * * *"
       TZ: ${TZ}
       MODE: CREATE
 #      MODE: DELETE_ALL
@@ -38,6 +38,7 @@ services:
       SHARE_WITH: "Sylwia"
       UPDATE_ALBUM_PROPS_MODE: 2
       UNATTENDED: 1
+      SYNC_MODE: 1
 
   immich-machine-learning:
     container_name: immich_machine_learning

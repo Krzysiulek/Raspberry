@@ -1,0 +1,12 @@
+---
+- name: Run docker system prune
+  hosts: all
+  become: true
+  tasks:
+    - name: Clean unused docker resources
+      ansible.builtin.command: docker system prune -f --all
+      register: prune_output
+
+    - name: Show cleaning result
+      ansible.builtin.debug:
+        var: prune_output.stdout_lines

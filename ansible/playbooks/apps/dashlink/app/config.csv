@@ -1,6 +1,6 @@
 name,port,icon
 HomeAssistant,8123,ha.png
-immich,2283,immich.svg
+Immich,2283,immich.svg
 FileBrowser,8080,filebrowser.svg
 OpenMediaVault,8001,openmediavault.png
 Cockpit,9090,cockpit.png

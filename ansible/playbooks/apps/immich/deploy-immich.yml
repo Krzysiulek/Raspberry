@@ -51,6 +51,11 @@
         group: "{{ ansible_user }}"
         mode: '0644'
 
+    - name: Pull latest Docker images
+      command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" pull
+      args:
+        chdir: "{{ compose_project_path }}"
+
     - name: Run Docker Compose up
       command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" up -d
       args:

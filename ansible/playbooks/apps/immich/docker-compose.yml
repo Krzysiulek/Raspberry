@@ -30,7 +30,7 @@ services:
       API_URL: http://immich_server:2283/api
       API_KEY_FILE: /immich_api_key.secret
       ROOT_PATH: /external
-      CRON_EXPRESSION: "30 */1 * * *"
+      CRON_EXPRESSION: "*/5 * * * *"
       TZ: ${TZ}
       MODE: CREATE
 #      MODE: DELETE_ALL

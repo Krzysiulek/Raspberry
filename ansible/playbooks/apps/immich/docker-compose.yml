@@ -6,7 +6,7 @@ services:
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       # to change to: - ${UPLOAD_LOCATION}:/usr/src/app/upload oraz zmineić upload_location na */upload
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${UPLOAD_LOCATION}:/data
       - ${EXTERNAL_LIBRARY_LOCATION}:/external:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:

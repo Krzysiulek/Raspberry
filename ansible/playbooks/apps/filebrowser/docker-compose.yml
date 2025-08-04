@@ -1,7 +1,7 @@
 version: "3"
 services:
   filebrowser:
-    image: hurlenko/filebrowser
+    image: hurlenko/filebrowser:v2.42.1
     user: "${UID}:${GID}"
     ports:
       - 8080:8080

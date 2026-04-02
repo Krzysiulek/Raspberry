@@ -1,0 +1,91 @@
+---
+- name: Deploy and run Docker Compose application
+  hosts: raspberrypi
+  become: true
+  vars_files:
+    - ./secret.yml
+  vars:
+    app_name: ai_vinted
+    compose_project_path: /home/{{ ansible_user }}/{{ app_name }}
+    dist_path: "/Users/krzysztofczarnecki/Documents/projects/AI-vinted-photos-generator/dist"
+
+  tasks:
+#    - name: Ensure Docker is installed
+#      apt:
+#        name: docker-ce
+#        state: present
+#        update_cache: yes
+#
+#    - name: Ensure Docker Compose plugin is installed
+#      apt:
+#        name: docker-compose-plugin
+#        state: present
+
+    - name: Create application directory
+      file:
+        path: "{{ compose_project_path }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Create data directory
+      file:
+        path: "{{ compose_project_path }}/data"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy docker-compose.yml to server
+      copy:
+        src: "{{ dist_path }}/docker-compose.yml"
+        dest: "{{ compose_project_path }}/docker-compose.yml"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Copy API image archive to server
+      copy:
+        src: "{{ dist_path }}/ai-vinted-api.tar.gz"
+        dest: "{{ compose_project_path }}/ai-vinted-api.tar.gz"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Copy frontend image archive to server
+      copy:
+        src: "{{ dist_path }}/ai-vinted-frontend.tar.gz"
+        dest: "{{ compose_project_path }}/ai-vinted-frontend.tar.gz"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Load API Docker image
+      command: docker load -i "{{ compose_project_path }}/ai-vinted-api.tar.gz"
+
+    - name: Load frontend Docker image
+      command: docker load -i "{{ compose_project_path }}/ai-vinted-frontend.tar.gz"
+
+    - name: Remove API image archive
+      file:
+        path: "{{ compose_project_path }}/ai-vinted-api.tar.gz"
+        state: absent
+
+    - name: Remove frontend image archive
+      file:
+        path: "{{ compose_project_path }}/ai-vinted-frontend.tar.gz"
+        state: absent
+
+    - name: Create .env file
+      copy:
+        content: "OPENAI_API_KEY={{ openai_api_key }}\n"
+        dest: "{{ compose_project_path }}/.env"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0600'
+
+    - name: Run Docker Compose up
+      command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" up -d
+      args:
+        chdir: "{{ compose_project_path }}"

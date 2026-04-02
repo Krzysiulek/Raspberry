@@ -1,3 +1,4 @@
 .idea/**
 keys.txt
 ansible/playbooks/apps/photoview/config/*
+ansible/.vault_pass

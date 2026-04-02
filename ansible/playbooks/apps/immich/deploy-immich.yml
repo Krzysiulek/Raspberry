@@ -56,6 +56,11 @@
       args:
         chdir: "{{ compose_project_path }}"
 
+    - name: Run Docker Compose down
+      command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" down
+      args:
+        chdir: "{{ compose_project_path }}"
+
     - name: Run Docker Compose up
       command: docker compose -f "{{ compose_project_path }}/docker-compose.yml" up -d
       args:

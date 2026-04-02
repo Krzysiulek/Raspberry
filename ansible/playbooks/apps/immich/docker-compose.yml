@@ -8,6 +8,7 @@ services:
       # to change to: - ${UPLOAD_LOCATION}:/usr/src/app/upload oraz zmineić upload_location na */upload
       - ${UPLOAD_LOCATION}:/data
       - ${EXTERNAL_LIBRARY_LOCATION}:/external:ro
+#      - ${EXTERNAL_LIBRARY_LOCATION}:/external
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env

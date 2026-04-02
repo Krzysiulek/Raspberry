@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Hanger hook -->
+  <path d="M32 8 C32 4, 36 2, 38 4 C40 6, 38 8, 36 8" stroke="#8b6fff" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Hanger body -->
+  <path d="M32 8 L12 28 L52 28 Z" stroke="#8b6fff" stroke-width="3" stroke-linejoin="round" fill="none"/>
+  <!-- T-shirt body -->
+  <path d="M16 28 L16 54 C16 56, 18 58, 20 58 L44 58 C46 58, 48 56, 48 54 L48 28" stroke="#8b6fff" stroke-width="3" stroke-linejoin="round" fill="rgba(139,111,255,0.14)"/>
+  <!-- Left sleeve -->
+  <path d="M16 28 L6 38 L14 42 L16 36" stroke="#8b6fff" stroke-width="3" stroke-linejoin="round" fill="rgba(139,111,255,0.14)"/>
+  <!-- Right sleeve -->
+  <path d="M48 28 L58 38 L50 42 L48 36" stroke="#8b6fff" stroke-width="3" stroke-linejoin="round" fill="rgba(139,111,255,0.14)"/>
+</svg>

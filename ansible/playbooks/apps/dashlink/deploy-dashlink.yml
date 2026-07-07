@@ -9,16 +9,16 @@
     local_compose_file: ./docker-compose.yml
 
   tasks:
-    - name: Ensure Docker is installed
-      apt:
-        name: docker-ce
-        state: present
-        update_cache: yes
-
-    - name: Ensure Docker Compose plugin is installed
-      apt:
-        name: docker-compose-plugin
-        state: present
+#    - name: Ensure Docker is installed
+#      apt:
+#        name: docker-ce
+#        state: present
+#        update_cache: yes
+#
+#    - name: Ensure Docker Compose plugin is installed
+#      apt:
+#        name: docker-compose-plugin
+#        state: present
 
     - name: Create application directory on server
       file:
